@@ -2,12 +2,17 @@ def main(book_path):
     text = get_text(book_path)
     word_count = get_word_count(text)
     occurence = get_character_counts(text)
-    print(f"The file '{book_path}' contains {word_count} words.")
-    for key, value in occurence.items():
-        if key == '\n':
-            print(f"Character '\\n' appears '{value}' times.")            
-        else:
-            print(f"Character '{key}' appears '{value}' times.")
+    print(f"--- Begin report of '{book_path}' --- ")
+    print(f"{word_count} words found in document.\n")
+    alphabet = isalpha(occurence)
+    sorted_alpha = sort_alpha(alphabet)
+    for key, value in sorted_alpha.items():
+        print(f"Character '{key}' appears '{value}' times.")
+    print(sorted_alpha)
+#    for key, value in occurence.items():
+#        if key.isalpha():
+#            print(f"Character '{key}' appears '{value}' times.")
+    print(f"--- End report ---")
 
 def get_text(book_path):
     with open(book_path) as f:
@@ -27,6 +32,22 @@ def get_character_counts(text):
             occurence[i] = 1
     return occurence
 
+def isalpha(occurence):
+    alphabet = {}
+    for key, value in occurence.items():
+        if key.isalpha():
+            alphabet[key] = value
+    return alphabet
+
+def sort_on(alphabet):
+    return alphabet["value"]
+
+def sort_alpha(alphabet):
+    alphabet_list = []
+    for key, value in alphabet.items():
+        alphabet_list.append({"key": key, "value": value})
+    alphabet_list.sort(reverse=True, key=sort_on)
+    return alphabet_list
 
 
 main("books/frankenstein.txt")
