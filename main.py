@@ -3,25 +3,41 @@
 #Path is used need in the process_directory() function. Enables the use of directories in the script.
 from pathlib import Path
 
-#Convert the directory path into a Path object and tterate over all .txt files in the directory. 
+#Convert the directory path into a Path object and itterate over all .txt files in the directory. 
 #Input could be ~/books. 
 #Output is calling the main() function over every text file in the directory.
-def process_directory(directory_path):
+def main(directory_path):
+    """
+    Converts directory path to a path object and calls main() over every .txt file in the directory.
+    
+    Args:
+        directory_path (str): Path to the directory to be processed.
+    
+    """
     directory = Path(directory_path)
     for file_path in directory.glob("*.txt"):
-        main(file_path)
+        process_file(file_path)
 
 #This function will return a word count and a count of alphabetical characters in a text in descending order.
 #Input and output explanations can be found in the seperate functions below.
-def main(book_path):
-    text = get_text(book_path)
+def process_file(file_path):
+    """
+    Prints a report on the amount of words and the count of alphabet characters in descending order of a file.
+
+    Args:
+        file_path (str): Path to the file to read.
+
+    Return:
+        No returns.
+    """
+    text = get_text(file_path)
     word_count = get_word_count(text)
     occurence = get_character_counts(text)
     alphabet = isalpha(occurence)
     sorted_alpha = sort_alpha(alphabet)
     
     #Print statements for a readable report on the book's content.
-    print(f"--- Begin report of {book_path} --- ")
+    print(f"--- Begin report of {file_path} --- ")
     print(f"{word_count} words found in document.\n")
     for character in sorted_alpha:
         print(f"The '{character['character']}' character was found '{character['count']}' times.")
@@ -30,7 +46,7 @@ def main(book_path):
 
 def get_text(file_path):
     """
-    Reads the content of a .txt file and returns it as a string.
+    Reads the content of a file and returns it as a string.
     
     Args:
         file_path (str): Path to the file to read.
@@ -56,7 +72,6 @@ def get_word_count(text):
     word_count = text.split()
     return len(word_count)
 
-#occurence counts the different character. All characters are converted to lower case first to prevent duplicates. Then an empty dictionary is created to be filled with all characters in the test. If a character is not found in the dictionary it will create, otheriwse it adds.
 def get_character_counts(text):
     """
     Counts the times a character appears in a text.
@@ -82,6 +97,19 @@ def get_character_counts(text):
 
 #filters the characters on alphabetical or not. A dictionary is created that will be filled only with characters fitting the .isalpha() criteria.
 def isalpha(occurence):
+    """
+    Filters the dictionary 'occurence' to retain only alphabetical characters.
+
+    This function creates a new dictionary where:
+        - Keys are alphabetical characters from 'occurence'.
+        - Values are the counts of those characters.
+
+    Args:
+        occurence (dict): Dictionary with characters as keys and counts as values.
+
+    Returns:
+        alphabet (dict): Dictionary with characters as keys and counts as values.
+    """
     alphabet = {}
     for character, count in occurence.items():
         if character.isalpha():
@@ -90,6 +118,15 @@ def isalpha(occurence):
 
 #Determines what a dictionary should be sorted on. 
 def sort_on(alphabet):
+    """
+    Determines what a dictionary should be sorted on.
+
+    Args:
+        alphabet (dict): Dictionary with characters as keys and counts as values.
+    
+    Returns:
+        (Value): The value that needs sorted.
+    """
     return alphabet["count"]
 
 def sort_alpha(alphabet):
@@ -100,4 +137,4 @@ def sort_alpha(alphabet):
     return alphabet_list
      
 #Call process_directory on the directory of choice. 
-process_directory("books")
+main("books")
