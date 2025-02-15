@@ -116,8 +116,25 @@ def isalpha(occurence):
             alphabet[character] = count
     return alphabet
 
+def sort_alpha(alphabet):
+    """
+    Sorts the alphabetical characters in descending order based on their count
+    
+    Args:
+        alphabet (dict): Dictionary with characters as keys and counts as values.
+        
+    Returns:
+        alphabet_list (lst): A list of dictionaries in following format: {"character": char, "count": number}.
+    
+    """
+    alphabet_list = []
+    for character, count in alphabet.items():
+        alphabet_list.append({"character": character, "count": count})
+    alphabet_list.sort(reverse=True, key=sort_on)
+    return alphabet_list
+
 #Determines what a dictionary should be sorted on. 
-def sort_on(alphabet):
+def sort_on(alphabet_list):
     """
     Determines what a dictionary should be sorted on.
 
@@ -125,16 +142,10 @@ def sort_on(alphabet):
         alphabet (dict): Dictionary with characters as keys and counts as values.
     
     Returns:
-        (Value): The value that needs sorted.
+        (int): The value that needs sorted.
     """
-    return alphabet["count"]
+    #print(f"sort_on received: {alphabet_list}")
+    return alphabet_list["count"]
 
-def sort_alpha(alphabet):
-    alphabet_list = []
-    for character, count in alphabet.items():
-        alphabet_list.append({"character": character, "count": count})
-    alphabet_list.sort(reverse=True, key=sort_on)
-    return alphabet_list
-     
 #Call process_directory on the directory of choice. 
 main("books")
