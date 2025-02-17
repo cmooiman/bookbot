@@ -1,11 +1,8 @@
 #A script that for every text file in a directory returns the word and character count in descending order.
 
-#Path is used need in the process_directory() function. Enables the use of directories in the script.
+#Path is used in the process_directory() function. Enables the use of path objects instead of 'path to file' strings.
 from pathlib import Path
 
-#Convert the directory path into a Path object and itterate over all .txt files in the directory. 
-#Input could be ~/books. 
-#Output is calling the main() function over every text file in the directory.
 def main(directory_path):
     """
     Converts directory path to a path object and calls main() over every .txt file in the directory.
@@ -18,8 +15,6 @@ def main(directory_path):
     for file_path in directory.glob("*.txt"):
         process_file(file_path)
 
-#This function will return a word count and a count of alphabetical characters in a text in descending order.
-#Input and output explanations can be found in the seperate functions below.
 def process_file(file_path):
     """
     Prints a report on the amount of words and the count of alphabet characters in descending order of a file.
@@ -95,7 +90,6 @@ def get_character_counts(text):
             occurence[character] = 1
     return occurence
 
-#filters the characters on alphabetical or not. A dictionary is created that will be filled only with characters fitting the .isalpha() criteria.
 def isalpha(occurence):
     """
     Filters the dictionary 'occurence' to retain only alphabetical characters.
@@ -133,10 +127,9 @@ def sort_alpha(alphabet):
     alphabet_list.sort(reverse=True, key=sort_on)
     return alphabet_list
 
-#Determines what a dictionary should be sorted on. 
 def sort_on(alphabet_list):
     """
-    Determines what a dictionary should be sorted on.
+    Determines how a dictionary should be sorted.
 
     Args:
         alphabet (dict): Dictionary with characters as keys and counts as values.
@@ -144,8 +137,6 @@ def sort_on(alphabet_list):
     Returns:
         (int): The value that needs sorted.
     """
-    #print(f"sort_on received: {alphabet_list}")
     return alphabet_list["count"]
 
-#Call process_directory on the directory of choice. 
 main("books")
